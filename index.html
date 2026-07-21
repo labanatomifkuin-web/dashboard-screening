@@ -15,13 +15,11 @@
   <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
   <style>
 
     * {
       box-sizing: border-box;
     }
-
 
     body {
 
@@ -36,7 +34,6 @@
       padding: 20px;
 
     }
-
 
     .container {
 
@@ -57,7 +54,6 @@
 
     }
 
-
     /* =========================
        HEADER
     ========================= */
@@ -76,7 +72,6 @@
 
     }
 
-
     .header h1 {
 
       margin: 0;
@@ -84,7 +79,6 @@
       font-size: 25px;
 
     }
-
 
     .header p {
 
@@ -96,7 +90,6 @@
 
     }
 
-
     /* =========================
        CONTENT
     ========================= */
@@ -106,7 +99,6 @@
       padding: 30px;
 
     }
-
 
     .judul {
 
@@ -119,7 +111,6 @@
       margin-bottom: 25px;
 
     }
-
 
     /* =========================
        INFO
@@ -145,7 +136,6 @@
 
     }
 
-
     .jumlah {
 
       color: #477c70;
@@ -155,7 +145,6 @@
       font-size: 18px;
 
     }
-
 
     .refresh {
 
@@ -177,13 +166,11 @@
 
     }
 
-
     .refresh:hover {
 
       background: #38665b;
 
     }
-
 
     /* =========================
        DAFTAR ANTREAN
@@ -198,7 +185,6 @@
       gap: 12px;
 
     }
-
 
     .item {
 
@@ -220,7 +206,6 @@
 
     }
 
-
     .nomor {
 
       font-size: 25px;
@@ -232,7 +217,6 @@
       min-width: 65px;
 
     }
-
 
     .nama {
 
@@ -246,7 +230,6 @@
 
     }
 
-
     .status {
 
       font-size: 13px;
@@ -259,74 +242,9 @@
 
     }
 
-
-    .panggil {
-
-      width: auto;
-
-      padding: 10px 15px;
-
-      background: #d8b84c;
-
-      color: #35402f;
-
-      border: none;
-
-      border-radius: 8px;
-
-      font-weight: bold;
-
-      cursor: pointer;
-
-    }
-
-
-    .panggil:hover {
-
-      background: #c4a63e;
-
-    }
-
-
     /* =========================
-       STATUS DIPANGGIL
+       BUTTON SELESAI
     ========================= */
-
-    .item.dipanggil {
-
-      background: #fffbea;
-
-      border-color: #d8b84c;
-
-    }
-
-
-    .item.dipanggil .status {
-
-      color: #9b8125;
-
-      font-weight: bold;
-
-    }
-
-
-    .item.selesai {
-
-      opacity: 0.6;
-
-      background: #f5f5f5;
-
-    }
-
-
-    .item.selesai .status {
-
-      color: #477c70;
-
-      font-weight: bold;
-
-    }
-
 
     .btn-selesai {
 
@@ -348,13 +266,41 @@
 
     }
 
-
     .btn-selesai:hover {
 
       background: #38665b;
 
     }
 
+    /* =========================
+       SELESAI
+    ========================= */
+
+    .item.selesai {
+
+      opacity: 0.6;
+
+      background: #f5f5f5;
+
+    }
+
+    .item.selesai .status {
+
+      color: #477c70;
+
+      font-weight: bold;
+
+    }
+
+    .btn-selesai:disabled {
+
+      background: #b7c8c2;
+
+      color: white;
+
+      cursor: not-allowed;
+
+    }
 
     /* =========================
        KOSONG
@@ -370,7 +316,6 @@
 
     }
 
-
     /* =========================
        LOADING
     ========================= */
@@ -385,13 +330,11 @@
 
     }
 
-
     /* =========================
        RESPONSIVE
     ========================= */
 
     @media (max-width: 600px) {
-
 
       .content {
 
@@ -399,22 +342,17 @@
 
       }
 
-
       .item {
 
         flex-wrap: wrap;
 
       }
 
-
       .nomor {
 
         min-width: 55px;
 
       }
-
-
-      .panggil,
 
       .btn-selesai {
 
@@ -563,7 +501,9 @@
     const daftar =
 
       document.getElementById(
+
         "daftar"
+
       );
 
 
@@ -608,7 +548,6 @@
         );
 
 
-
       if (error) {
 
         throw error;
@@ -617,7 +556,7 @@
 
 
 
-      // Tampilkan jumlah
+      // Tampilkan jumlah antrean
 
       document.getElementById(
 
@@ -665,12 +604,13 @@
           const item =
 
             document.createElement(
+
               "div"
+
             );
 
 
           item.className = "item";
-
 
 
           item.innerHTML = `
@@ -678,7 +618,9 @@
             <div class="nomor">
 
               ${String(
+
                 peserta.nomor
+
               ).padStart(3, "0")}
 
             </div>
@@ -699,21 +641,23 @@
 
             <button
 
-              class="panggil"
+              class="btn-selesai"
 
-              onclick="panggilNomor(
+              onclick="selesaiNomor(
+
                 this,
+
                 ${peserta.nomor}
+
               )"
 
             >
 
-              PANGGIL
+              SELESAI
 
             </button>
 
           `;
-
 
 
           daftar.appendChild(
@@ -758,103 +702,6 @@
 
 
   // =====================================
-  // PANGGIL NOMOR
-  // =====================================
-
-
-  function panggilNomor(
-
-    tombol,
-
-    nomor
-
-  ) {
-
-
-    const item =
-
-      tombol.parentElement;
-
-
-    const status =
-
-      item.querySelector(
-        ".status"
-      );
-
-
-
-    // Ubah status
-
-    status.textContent =
-
-      "Sedang dipanggil";
-
-
-    // Ubah tampilan
-
-    item.classList.add(
-
-      "dipanggil"
-
-    );
-
-
-    // Ubah tombol
-
-    tombol.textContent =
-
-      "SELESAI";
-
-
-    tombol.className =
-
-      "btn-selesai";
-
-
-    // Ubah fungsi tombol
-
-    tombol.onclick =
-
-      function() {
-
-
-        selesaiNomor(
-
-          tombol,
-
-          nomor
-
-        );
-
-
-      };
-
-
-    // Tampilkan pemberitahuan
-
-    alert(
-
-      "Memanggil nomor antrean " +
-
-      String(nomor)
-
-        .padStart(
-
-          3,
-
-          "0"
-
-        )
-
-    );
-
-
-  }
-
-
-
-  // =====================================
   // SELESAIKAN ANTREAN
   // =====================================
 
@@ -876,22 +723,20 @@
     const status =
 
       item.querySelector(
+
         ".status"
+
       );
 
 
+    // Ubah status
 
     status.textContent =
 
       "Selesai";
 
 
-    item.classList.remove(
-
-      "dipanggil"
-
-    );
-
+    // Ubah tampilan menjadi selesai
 
     item.classList.add(
 
@@ -899,6 +744,8 @@
 
     );
 
+
+    // Nonaktifkan tombol
 
     tombol.textContent =
 
@@ -909,6 +756,8 @@
 
       true;
 
+
+    // Pemberitahuan
 
     alert(
 
