@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Dashboard Screening Kesehatan Mental</title>
+
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    body {
+
+      margin: 0;
+
+      min-height: 100vh;
+
+      font-family: Arial, sans-serif;
+
+      background: #eef6f3;
+
+      padding: 20px;
+
+    }
+
+
+    .container {
+
+      width: 100%;
+
+      max-width: 700px;
+
+      margin: auto;
+
+      background: white;
+
+      border-radius: 22px;
+
+      overflow: hidden;
+
+      box-shadow:
+        0 10px 30px rgba(55, 90, 80, 0.15);
+
+    }
+
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .header {
+
+      background: #6fa89a;
+
+      color: white;
+
+      text-align: center;
+
+      padding: 30px 20px;
+
+      border-bottom: 5px solid #d8b84c;
+
+    }
+
+
+    .header h1 {
+
+      margin: 0;
+
+      font-size: 25px;
+
+    }
+
+
+    .header p {
+
+      margin: 10px 0 0;
+
+      color: #fff8d9;
+
+      font-size: 14px;
+
+    }
+
+
+    /* =========================
+       CONTENT
+    ========================= */
+
+    .content {
+
+      padding: 30px;
+
+    }
+
+
+    .judul {
+
+      text-align: center;
+
+      color: #477c70;
+
+      margin-top: 0;
+
+      margin-bottom: 25px;
+
+    }
+
+
+    /* =========================
+       INFO
+    ========================= */
+
+    .info {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 20px;
+
+      padding: 15px;
+
+      background: #f0f7f4;
+
+      border-radius: 12px;
+
+      color: #40514c;
+
+    }
+
+
+    .jumlah {
+
+      color: #477c70;
+
+      font-weight: bold;
+
+      font-size: 18px;
+
+    }
+
+
+    .refresh {
+
+      width: auto;
+
+      padding: 10px 15px;
+
+      background: #477c70;
+
+      color: white;
+
+      border: none;
+
+      border-radius: 8px;
+
+      cursor: pointer;
+
+      font-weight: bold;
+
+    }
+
+
+    .refresh:hover {
+
+      background: #38665b;
+
+    }
+
+
+    /* =========================
+       DAFTAR ANTREAN
+    ========================= */
+
+    .daftar {
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 12px;
+
+    }
+
+
+    .item {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 15px;
+
+      padding: 15px;
+
+      border: 1px solid #d8e6e1;
+
+      border-radius: 12px;
+
+      background: white;
+
+    }
+
+
+    .nomor {
+
+      font-size: 25px;
+
+      font-weight: bold;
+
+      color: #477c70;
+
+      min-width: 65px;
+
+    }
+
+
+    .nama {
+
+      flex: 1;
+
+      font-size: 16px;
+
+      font-weight: bold;
+
+      color: #354640;
+
+    }
+
+
+    .status {
+
+      font-size: 13px;
+
+      font-weight: normal;
+
+      color: #778782;
+
+      margin-top: 5px;
+
+    }
+
+
+    .panggil {
+
+      width: auto;
+
+      padding: 10px 15px;
+
+      background: #d8b84c;
+
+      color: #35402f;
+
+      border: none;
+
+      border-radius: 8px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+    }
+
+
+    .panggil:hover {
+
+      background: #c4a63e;
+
+    }
+
+
+    /* =========================
+       STATUS DIPANGGIL
+    ========================= */
+
+    .item.dipanggil {
+
+      background: #fffbea;
+
+      border-color: #d8b84c;
+
+    }
+
+
+    .item.dipanggil .status {
+
+      color: #9b8125;
+
+      font-weight: bold;
+
+    }
+
+
+    .item.selesai {
+
+      opacity: 0.6;
+
+      background: #f5f5f5;
+
+    }
+
+
+    .item.selesai .status {
+
+      color: #477c70;
+
+      font-weight: bold;
+
+    }
+
+
+    .btn-selesai {
+
+      width: auto;
+
+      padding: 10px 15px;
+
+      background: #477c70;
+
+      color: white;
+
+      border: none;
+
+      border-radius: 8px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+    }
+
+
+    .btn-selesai:hover {
+
+      background: #38665b;
+
+    }
+
+
+    /* =========================
+       KOSONG
+    ========================= */
+
+    .kosong {
+
+      text-align: center;
+
+      padding: 30px;
+
+      color: #778782;
+
+    }
+
+
+    /* =========================
+       LOADING
+    ========================= */
+
+    .loading {
+
+      text-align: center;
+
+      padding: 30px;
+
+      color: #477c70;
+
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+
+      .content {
+
+        padding: 20px;
+
+      }
+
+
+      .item {
+
+        flex-wrap: wrap;
+
+      }
+
+
+      .nomor {
+
+        min-width: 55px;
+
+      }
+
+
+      .panggil,
+
+      .btn-selesai {
+
+        width: 100%;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+  <!-- =========================
+       HEADER
+  ========================= -->
+
+  <div class="header">
+
+    <h1>
+      DASHBOARD SCREENING
+    </h1>
+
+    <p>
+      Fakultas Kedokteran UIN Sunan Kalijaga Yogyakarta
+    </p>
+
+  </div>
+
+
+
+  <!-- =========================
+       CONTENT
+  ========================= -->
+
+  <div class="content">
+
+
+    <h2 class="judul">
+
+      Daftar Antrean Screening
+
+    </h2>
+
+
+
+    <!-- INFO -->
+
+    <div class="info">
+
+      <div>
+
+        Total antrean:
+
+        <span
+          class="jumlah"
+          id="jumlah"
+        >
+          0
+        </span>
+
+      </div>
+
+
+      <button
+        class="refresh"
+        onclick="ambilData()"
+      >
+
+        🔄 Refresh
+
+      </button>
+
+    </div>
+
+
+
+    <!-- DAFTAR -->
+
+    <div
+      class="daftar"
+      id="daftar"
+    >
+
+      <div class="loading">
+
+        Memuat data antrean...
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+</div>
+
+
+
+<script>
+
+
+  // =====================================
+  // SUPABASE
+  // =====================================
+
+
+  const SUPABASE_URL =
+
+    "https://drseschhiwzgwjfzcvsw.supabase.co";
+
+
+  const SUPABASE_KEY =
+
+    "sb_publishable_vm34omqwLMjPIeOvdrttEA_ZfvzKcPN";
+
+
+  const supabaseClient =
+
+    supabase.createClient(
+
+      SUPABASE_URL,
+
+      SUPABASE_KEY
+
+    );
+
+
+
+  // =====================================
+  // AMBIL DATA DARI SUPABASE
+  // =====================================
+
+
+  async function ambilData() {
+
+
+    const daftar =
+
+      document.getElementById(
+        "daftar"
+      );
+
+
+    daftar.innerHTML =
+
+      '<div class="loading">' +
+
+      'Memuat data antrean...' +
+
+      '</div>';
+
+
+
+    try {
+
+
+      const {
+
+        data,
+
+        error
+
+      } = await supabaseClient
+
+
+        .from("screening_mental")
+
+
+        .select("*")
+
+
+        .order(
+
+          "nomor",
+
+          {
+
+            ascending: true
+
+          }
+
+        );
+
+
+
+      if (error) {
+
+        throw error;
+
+      }
+
+
+
+      // Tampilkan jumlah
+
+      document.getElementById(
+
+        "jumlah"
+
+      ).textContent =
+
+        data.length;
+
+
+
+      // Jika tidak ada data
+
+      if (data.length === 0) {
+
+
+        daftar.innerHTML =
+
+          '<div class="kosong">' +
+
+          'Belum ada peserta yang mengambil nomor antrean.' +
+
+          '</div>';
+
+
+        return;
+
+      }
+
+
+
+      // Kosongkan daftar
+
+      daftar.innerHTML = "";
+
+
+
+      // Tampilkan semua peserta
+
+      data.forEach(
+
+        function (peserta) {
+
+
+          const item =
+
+            document.createElement(
+              "div"
+            );
+
+
+          item.className = "item";
+
+
+
+          item.innerHTML = `
+
+            <div class="nomor">
+
+              ${String(
+                peserta.nomor
+              ).padStart(3, "0")}
+
+            </div>
+
+
+            <div class="nama">
+
+              ${peserta.nama}
+
+              <div class="status">
+
+                Menunggu
+
+              </div>
+
+            </div>
+
+
+            <button
+
+              class="panggil"
+
+              onclick="panggilNomor(
+                this,
+                ${peserta.nomor}
+              )"
+
+            >
+
+              PANGGIL
+
+            </button>
+
+          `;
+
+
+
+          daftar.appendChild(
+
+            item
+
+          );
+
+
+        }
+
+      );
+
+
+    }
+
+
+    catch (error) {
+
+
+      console.error(error);
+
+
+      daftar.innerHTML =
+
+        '<div class="kosong">' +
+
+        'Gagal mengambil data antrean.' +
+
+        '<br><br>' +
+
+        error.message +
+
+        '</div>';
+
+
+    }
+
+
+  }
+
+
+
+  // =====================================
+  // PANGGIL NOMOR
+  // =====================================
+
+
+  function panggilNomor(
+
+    tombol,
+
+    nomor
+
+  ) {
+
+
+    const item =
+
+      tombol.parentElement;
+
+
+    const status =
+
+      item.querySelector(
+        ".status"
+      );
+
+
+
+    // Ubah status
+
+    status.textContent =
+
+      "Sedang dipanggil";
+
+
+    // Ubah tampilan
+
+    item.classList.add(
+
+      "dipanggil"
+
+    );
+
+
+    // Ubah tombol
+
+    tombol.textContent =
+
+      "SELESAI";
+
+
+    tombol.className =
+
+      "btn-selesai";
+
+
+    // Ubah fungsi tombol
+
+    tombol.onclick =
+
+      function() {
+
+
+        selesaiNomor(
+
+          tombol,
+
+          nomor
+
+        );
+
+
+      };
+
+
+    // Tampilkan pemberitahuan
+
+    alert(
+
+      "Memanggil nomor antrean " +
+
+      String(nomor)
+
+        .padStart(
+
+          3,
+
+          "0"
+
+        )
+
+    );
+
+
+  }
+
+
+
+  // =====================================
+  // SELESAIKAN ANTREAN
+  // =====================================
+
+
+  function selesaiNomor(
+
+    tombol,
+
+    nomor
+
+  ) {
+
+
+    const item =
+
+      tombol.parentElement;
+
+
+    const status =
+
+      item.querySelector(
+        ".status"
+      );
+
+
+
+    status.textContent =
+
+      "Selesai";
+
+
+    item.classList.remove(
+
+      "dipanggil"
+
+    );
+
+
+    item.classList.add(
+
+      "selesai"
+
+    );
+
+
+    tombol.textContent =
+
+      "SELESAI";
+
+
+    tombol.disabled =
+
+      true;
+
+
+    alert(
+
+      "Nomor antrean " +
+
+      String(nomor)
+
+        .padStart(
+
+          3,
+
+          "0"
+
+        ) +
+
+      " telah selesai."
+
+    );
+
+
+  }
+
+
+
+  // =====================================
+  // JALANKAN OTOMATIS
+  // SAAT DASHBOARD DIBUKA
+  // =====================================
+
+
+  ambilData();
+
+
+</script>
+
+
+</body>
+
+</html>
