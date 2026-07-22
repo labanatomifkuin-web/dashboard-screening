@@ -5,16 +5,11 @@
 
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Dashboard Screening Kesehatan Mental</title>
 
-  <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 
   <style>
 
@@ -22,367 +17,182 @@
       box-sizing: border-box;
     }
 
-
     body {
-
       margin: 0;
-
       min-height: 100vh;
-
       font-family: Arial, sans-serif;
-
       background: #eef6f3;
-
       padding: 20px;
-
     }
-
 
     .container {
-
       width: 100%;
-
       max-width: 700px;
-
       margin: auto;
-
       background: white;
-
       border-radius: 22px;
-
       overflow: hidden;
-
-      box-shadow:
-        0 10px 30px rgba(55, 90, 80, 0.15);
-
+      box-shadow: 0 10px 30px rgba(55, 90, 80, 0.15);
     }
-
-
-    /* =========================
-       HEADER
-    ========================= */
 
     .header {
-
       background: #6fa89a;
-
       color: white;
-
       text-align: center;
-
       padding: 30px 20px;
-
       border-bottom: 5px solid #d8b84c;
-
     }
-
 
     .header h1 {
-
       margin: 0;
-
       font-size: 25px;
-
     }
-
 
     .header p {
-
       margin: 10px 0 0;
-
       color: #fff8d9;
-
       font-size: 14px;
-
     }
-
-
-    /* =========================
-       CONTENT
-    ========================= */
 
     .content {
-
       padding: 30px;
-
     }
-
 
     .judul {
-
       text-align: center;
-
       color: #477c70;
-
       margin-top: 0;
-
       margin-bottom: 25px;
-
     }
-
-
-    /* =========================
-       INFO
-    ========================= */
 
     .info {
-
       display: flex;
-
       justify-content: space-between;
-
       align-items: center;
-
       margin-bottom: 20px;
-
       padding: 15px;
-
       background: #f0f7f4;
-
       border-radius: 12px;
-
       color: #40514c;
-
     }
-
 
     .jumlah {
-
       color: #477c70;
-
       font-weight: bold;
-
       font-size: 18px;
-
     }
-
 
     .refresh {
-
       width: auto;
-
       padding: 10px 15px;
-
       background: #477c70;
-
       color: white;
-
       border: none;
-
       border-radius: 8px;
-
       cursor: pointer;
-
       font-weight: bold;
-
     }
-
 
     .refresh:hover {
-
       background: #38665b;
-
     }
-
-
-    /* =========================
-       DAFTAR ANTREAN
-    ========================= */
 
     .daftar {
-
       display: flex;
-
       flex-direction: column;
-
       gap: 12px;
-
     }
-
 
     .item {
-
       display: flex;
-
       justify-content: space-between;
-
       align-items: center;
-
       gap: 15px;
-
       padding: 15px;
-
       border: 1px solid #d8e6e1;
-
       border-radius: 12px;
-
       background: white;
-
     }
-
 
     .nomor {
-
       font-size: 25px;
-
       font-weight: bold;
-
       color: #477c70;
-
       min-width: 65px;
-
     }
-
 
     .nama {
-
       flex: 1;
-
       font-size: 16px;
-
       font-weight: bold;
-
       color: #354640;
-
     }
-
 
     .status {
-
       font-size: 13px;
-
       font-weight: normal;
-
       color: #778782;
-
       margin-top: 5px;
-
     }
-
-
-    /* =========================
-       BUTTON SELESAI
-    ========================= */
 
     .btn-selesai {
-
       width: auto;
-
       padding: 10px 15px;
-
       background: #477c70;
-
       color: white;
-
       border: none;
-
       border-radius: 8px;
-
       font-weight: bold;
-
       cursor: pointer;
-
     }
-
 
     .btn-selesai:hover {
-
       background: #38665b;
-
     }
-
-
-    /* =========================
-       SELESAI
-    ========================= */
 
     .item.selesai {
-
       opacity: 0.6;
-
       background: #f5f5f5;
-
     }
-
 
     .item.selesai .status {
-
       color: #477c70;
-
       font-weight: bold;
-
     }
-
 
     .btn-selesai:disabled {
-
       background: #b7c8c2;
-
       color: white;
-
       cursor: not-allowed;
-
     }
 
-
-    /* =========================
-       KOSONG / LOADING
-    ========================= */
-
-    .kosong {
-
+    .kosong,
+    .loading {
       text-align: center;
-
       padding: 30px;
-
       color: #778782;
-
     }
-
 
     .loading {
-
-      text-align: center;
-
-      padding: 30px;
-
       color: #477c70;
-
     }
-
-
-    /* =========================
-       RESPONSIVE
-    ========================= */
 
     @media (max-width: 600px) {
 
-
       .content {
-
         padding: 20px;
-
       }
-
 
       .item {
-
         flex-wrap: wrap;
-
       }
-
 
       .nomor {
-
         min-width: 55px;
-
       }
 
-
       .btn-selesai {
-
         width: 100%;
-
       }
 
     }
@@ -398,10 +208,6 @@
 <div class="container">
 
 
-  <!-- =========================
-       HEADER
-  ========================= -->
-
   <div class="header">
 
     <h1>
@@ -415,23 +221,13 @@
   </div>
 
 
-
-  <!-- =========================
-       CONTENT
-  ========================= -->
-
   <div class="content">
 
 
     <h2 class="judul">
-
       Daftar Antrean Screening
-
     </h2>
 
-
-
-    <!-- INFO -->
 
     <div class="info">
 
@@ -461,18 +257,13 @@
     </div>
 
 
-
-    <!-- DAFTAR -->
-
     <div
       class="daftar"
       id="daftar"
     >
 
       <div class="loading">
-
         Memuat data antrean...
-
       </div>
 
     </div>
@@ -494,236 +285,160 @@
 
 
   const SUPABASE_URL =
-
     "https://drseschhiwzgwjfzcvsw.supabase.co";
 
 
   const SUPABASE_KEY =
-
     "sb_publishable_vm34omqwLMjPIeOvdrttEA_ZfvzKcPN";
 
 
   const supabaseClient =
-
     supabase.createClient(
-
       SUPABASE_URL,
-
       SUPABASE_KEY
-
     );
 
 
 
   // =====================================
-  // AMBIL DATA DARI SUPABASE
+  // AMBIL DATA
   // =====================================
 
 
   async function ambilData() {
 
-
     const daftar =
-
-      document.getElementById(
-
-        "daftar"
-
-      );
+      document.getElementById("daftar");
 
 
     daftar.innerHTML =
-
-      '<div class="loading">' +
-
-      'Memuat data antrean...' +
-
-      '</div>';
-
+      '<div class="loading">Memuat data antrean...</div>';
 
 
     try {
 
-
       const {
-
         data,
-
         error
-
       } = await supabaseClient
-
 
         .from("screening_mental")
 
-
         .select("*")
 
-
         .order(
-
           "nomor",
-
           {
-
             ascending: true
-
           }
-
         );
 
 
-
       if (error) {
-
         throw error;
-
       }
 
 
-
-      // Tampilkan jumlah antrean
-
-      document.getElementById(
-
-        "jumlah"
-
-      ).textContent =
-
+      document.getElementById("jumlah").textContent =
         data.length;
 
 
-
-      // Jika tidak ada data
-
       if (data.length === 0) {
 
-
         daftar.innerHTML =
-
           '<div class="kosong">' +
-
           'Belum ada peserta yang mengambil nomor antrean.' +
-
           '</div>';
-
 
         return;
 
       }
 
 
-
-      // Kosongkan daftar
-
       daftar.innerHTML = "";
 
 
-
-      // Tampilkan semua peserta
-
-      data.forEach(
-
-        function (peserta) {
+      data.forEach(function(peserta) {
 
 
-          const item =
-
-            document.createElement(
-
-              "div"
-
-            );
+        const item =
+          document.createElement("div");
 
 
-          item.className = "item";
+        item.className = "item";
 
 
-          // Cek status dari Supabase
+        // NULL dianggap sebagai MENUNGGU
+        // Hanya status "selesai" yang dianggap selesai
 
-          const sudahSelesai =
-
-            peserta.status === "selesai";
-
-
-          // Jika sudah selesai,
-
-          // tambahkan tampilan selesai
-
-          if (sudahSelesai) {
-
-            item.classList.add(
-
-              "selesai"
-
-            );
-
-          }
+        const sudahSelesai =
+          String(peserta.status || "").toLowerCase() === "selesai";
 
 
-          item.innerHTML = `
+        if (sudahSelesai) {
 
-            <div class="nomor">
-
-              ${String(
-
-                peserta.nomor
-
-              ).padStart(3, "0")}
-
-            </div>
-
-
-            <div class="nama">
-
-              ${peserta.nama}
-
-              <div class="status">
-
-                ${sudahSelesai
-                  ? "Selesai"
-                  : "Menunggu"}
-
-              </div>
-
-            </div>
-
-
-            <button
-
-              class="btn-selesai"
-
-              onclick="selesaiNomor(
-
-                this,
-
-                ${peserta.nomor}
-
-              )"
-
-              ${sudahSelesai
-                ? "disabled"
-                : ""}
-
-            >
-
-              SELESAI
-
-            </button>
-
-          `;
-
-
-          daftar.appendChild(
-
-            item
-
-          );
-
+          item.classList.add("selesai");
 
         }
 
-      );
+
+        item.innerHTML = `
+
+          <div class="nomor">
+
+            ${String(
+              peserta.nomor
+            ).padStart(3, "0")}
+
+          </div>
+
+
+          <div class="nama">
+
+            ${peserta.nama}
+
+            <div class="status">
+
+              ${sudahSelesai
+                ? "Selesai"
+                : "Menunggu"}
+
+            </div>
+
+          </div>
+
+
+          <button
+
+            class="btn-selesai"
+
+            onclick="selesaiNomor(
+
+              this,
+
+              ${peserta.nomor}
+
+            )"
+
+            ${sudahSelesai
+              ? "disabled"
+              : ""}
+
+          >
+
+            ${sudahSelesai
+              ? "SELESAI"
+              : "SELESAI"}
+
+          </button>
+
+        `;
+
+
+        daftar.appendChild(item);
+
+
+      });
 
 
     }
@@ -750,14 +465,13 @@
 
     }
 
-
   }
 
 
 
   // =====================================
   // SELESAIKAN ANTREAN
-  // SIMPAN KE SUPABASE
+  // SIMPAN STATUS KE SUPABASE
   // =====================================
 
 
@@ -770,22 +484,17 @@
   ) {
 
 
-    // Cegah tombol diklik dua kali
-
     tombol.disabled = true;
 
-
-    tombol.textContent =
-
-      "MENYIMPAN...";
+    tombol.textContent = "MENYIMPAN...";
 
 
     try {
 
 
-      // Update status di Supabase
-
       const {
+
+        data,
 
         error
 
@@ -808,7 +517,10 @@
 
           nomor
 
-        );
+        )
+
+
+        .select();
 
 
       if (error) {
@@ -818,61 +530,45 @@
       }
 
 
-      // Jika berhasil,
+      // Pastikan ada data yang berhasil di-update
 
-      // ubah tampilan
+      if (!data || data.length === 0) {
+
+        throw new Error(
+          "Data tidak berhasil diperbarui. Periksa pengaturan RLS Supabase."
+        );
+
+      }
+
 
       const item =
-
         tombol.parentElement;
 
 
       const status =
-
-        item.querySelector(
-
-          ".status"
-
-        );
+        item.querySelector(".status");
 
 
       status.textContent =
-
         "Selesai";
 
 
-      item.classList.add(
-
-        "selesai"
-
-      );
+      item.classList.add("selesai");
 
 
       tombol.textContent =
-
         "SELESAI";
 
 
       tombol.disabled =
-
         true;
 
-
-      // Pemberitahuan
 
       alert(
 
         "Nomor antrean " +
 
-        String(nomor)
-
-          .padStart(
-
-            3,
-
-            "0"
-
-          ) +
+        String(nomor).padStart(3, "0") +
 
         " telah selesai."
 
@@ -888,17 +584,11 @@
       console.error(error);
 
 
-      // Jika gagal,
-
-      // tombol bisa digunakan kembali
-
       tombol.textContent =
-
         "SELESAI";
 
 
       tombol.disabled =
-
         false;
 
 
@@ -913,14 +603,12 @@
 
     }
 
-
   }
 
 
 
   // =====================================
   // JALANKAN OTOMATIS
-  // SAAT DASHBOARD DIBUKA
   // =====================================
 
 
